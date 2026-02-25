@@ -4,6 +4,7 @@
   "description": "Real-time multiplayer typing race platform built with Next.js 15 and Payload CMS 3",
   "license": "MIT",
   "type": "module",
+  "packageManager": "pnpm@9.31.0",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
@@ -61,8 +62,8 @@
     "vitest": "4.0.18"
   },
   "engines": {
-    "node": "^18.20.2 || >=20.9.0",
-    "pnpm": "^9 || ^10"
+    "node": "18.20.2",
+    "pnpm": "9.31.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
