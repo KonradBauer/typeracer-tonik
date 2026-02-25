@@ -30,15 +30,15 @@ export async function MainLayout({ children }: { children: ReactNode }) {
           <div className="flex items-center gap-4">
             {user ? (
               <>
-                <Link href="/lobby" className="text-sm text-muted transition-colors hover:text-foreground">
+                <Link href="/lobby" className="relative text-sm text-muted transition-colors hover:text-foreground after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-200 hover:after:w-full">
                   Lobby
                 </Link>
-                <Link href="/leaderboard" className="text-sm text-muted transition-colors hover:text-foreground">
+                <Link href="/leaderboard" className="relative text-sm text-muted transition-colors hover:text-foreground after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-200 hover:after:w-full">
                   Leaderboard
                 </Link>
                 <Link
                   href={`/profile/${user.id}`}
-                  className="text-sm text-muted transition-colors hover:text-foreground"
+                  className="relative text-sm text-muted transition-colors hover:text-foreground after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-200 hover:after:w-full"
                 >
                   Profile
                 </Link>
