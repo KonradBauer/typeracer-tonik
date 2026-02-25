@@ -9,7 +9,7 @@ export const metadata = {
 export default function LoginPage() {
   return (
     <div className="flex justify-center py-12">
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm animate-fade-in-up">
         <CardHeader>
           <CardTitle>Login</CardTitle>
         </CardHeader>
