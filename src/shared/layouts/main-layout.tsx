@@ -5,6 +5,7 @@ import type { ReactNode } from 'react'
 
 import config from '@payload-config'
 import { APP_NAME } from '@/shared/lib/constants'
+import { LogoutButton } from '@/features/auth/components/logout-button'
 
 async function getUser() {
   const headers = await getHeaders()
@@ -38,6 +39,7 @@ export async function MainLayout({ children }: { children: ReactNode }) {
                 >
                   Profile
                 </Link>
+                <LogoutButton />
               </>
             ) : (
               <>
