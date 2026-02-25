@@ -1,17 +1,15 @@
 'use client'
 
-import { useCallback, useRef } from 'react'
+import { useCallback } from 'react'
 import { useGameStore } from '@/features/game/stores/game-store'
 import { useRaceConnection } from '@/features/game/hooks/use-race-connection'
+import { useTypingEngine } from '@/features/game/hooks/use-typing-engine'
 import { TypingArea } from './typing-area'
 import { Countdown } from './countdown'
 import { PlayerProgress } from './player-progress'
 import { Button } from '@/shared/ui/button'
 import { Spinner } from '@/shared/ui/spinner'
-import type { RealtimeTransport } from '@/infrastructure/realtime/transport'
-import { createTypingState, processKeystroke } from '@/domain/typing/engine'
-import { calculateLiveWpm, computeResult } from '@/domain/typing/stats'
-import type { TypingState } from '@/domain/typing/types'
+import type { TypingResult } from '@/domain/typing/types'
 
 interface RaceViewProps {
   raceId: string
@@ -21,7 +19,6 @@ interface RaceViewProps {
 
 export function RaceView({ raceId, token, currentUserId }: RaceViewProps) {
   const transportRef = useRaceConnection(raceId, token)
-  const typingStateRef = useRef<TypingState | null>(null)
 
   const connectionState = useGameStore((s) => s.connectionState)
   const status = useGameStore((s) => s.status)
@@ -31,40 +28,48 @@ export function RaceView({ raceId, token, currentUserId }: RaceViewProps) {
   const updateLocalProgress = useGameStore((s) => s.updateLocalProgress)
   const setLocalFinished = useGameStore((s) => s.setLocalFinished)
 
+  const handleProgress = useCallback(
+    (position: number, wpm: number) => {
+      updateLocalProgress(position, wpm)
+      transportRef.current?.send({
+        type: 'player:keystroke',
+        payload: { position, timestamp: Date.now() },
+      })
+    },
+    [updateLocalProgress, transportRef],
+  )
+
+  const handleFinish = useCallback(
+    (result: TypingResult) => {
+      setLocalFinished(result.wpm, result.accuracy)
+      transportRef.current?.send({
+        type: 'player:finished',
+        payload: { wpm: result.wpm, accuracy: result.accuracy },
+      })
+    },
+    [setLocalFinished, transportRef],
+  )
+
+  const { handleChar } = useTypingEngine({
+    text,
+    onProgress: handleProgress,
+    onFinish: handleFinish,
+  })
+
   const handleReady = useCallback(() => {
     transportRef.current?.send({ type: 'player:ready' })
   }, [transportRef])
 
   const handleKeystroke = useCallback(
     (char: string, _position: number, timestamp: number) => {
-      if (!text) return
-
-      if (!typingStateRef.current) {
-        typingStateRef.current = createTypingState(text)
-      }
-
-      typingStateRef.current = processKeystroke(typingStateRef.current, char, timestamp)
-      const state = typingStateRef.current
-      const wpm = calculateLiveWpm(state, timestamp)
-
-      updateLocalProgress(state.position, wpm)
-      transportRef.current?.send({
-        type: 'player:keystroke',
-        payload: { position: state.position, timestamp },
-      })
+      handleChar(char, timestamp)
     },
-    [text, updateLocalProgress, transportRef],
+    [handleChar],
   )
 
-  const handleFinished = useCallback(() => {
-    if (!typingStateRef.current) return
-    const result = computeResult(typingStateRef.current)
-    setLocalFinished(result.wpm, result.accuracy)
-    transportRef.current?.send({
-      type: 'player:finished',
-      payload: { wpm: result.wpm, accuracy: result.accuracy },
-    })
-  }, [setLocalFinished, transportRef])
+  const handleTypingFinished = useCallback(() => {
+    // Finish is handled by useTypingEngine's onFinish callback
+  }, [])
 
   if (connectionState === 'connecting') {
     return (
@@ -102,7 +107,7 @@ export function RaceView({ raceId, token, currentUserId }: RaceViewProps) {
       {status === 'countdown' && <Countdown seconds={countdown ?? 0} />}
 
       {(status === 'racing' || status === 'finished') && (
-        <TypingArea onKeystroke={handleKeystroke} onFinished={handleFinished} />
+        <TypingArea onKeystroke={handleKeystroke} onFinished={handleTypingFinished} />
       )}
     </div>
   )
