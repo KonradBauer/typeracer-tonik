@@ -69,6 +69,9 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    texts: Text;
+    races: Race;
+    'race-results': RaceResult;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +81,9 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    texts: TextsSelect<false> | TextsSelect<true>;
+    races: RacesSelect<false> | RacesSelect<true>;
+    'race-results': RaceResultsSelect<false> | RaceResultsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -120,6 +126,17 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  username: string;
+  displayName?: string | null;
+  avatarUrl?: string | null;
+  role?: ('player' | 'admin') | null;
+  stats?: {
+    totalRaces?: number | null;
+    avgWpm?: number | null;
+    bestWpm?: number | null;
+    avgAccuracy?: number | null;
+    elo?: number | null;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -160,6 +177,71 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "texts".
+ */
+export interface Text {
+  id: string;
+  content: string;
+  /**
+   * Book title, quote attribution, etc.
+   */
+  source?: string | null;
+  author?: string | null;
+  difficulty?: ('easy' | 'medium' | 'hard') | null;
+  wordCount?: number | null;
+  charCount?: number | null;
+  language?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "races".
+ */
+export interface Race {
+  id: string;
+  status: 'waiting' | 'countdown' | 'racing' | 'finished';
+  text: string | Text;
+  config?: {
+    maxPlayers?: number | null;
+    countdownSeconds?: number | null;
+  };
+  startedAt?: string | null;
+  finishedAt?: string | null;
+  createdBy: string | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "race-results".
+ */
+export interface RaceResult {
+  id: string;
+  race: string | Race;
+  player: string | User;
+  position: number;
+  wpm: number;
+  accuracy: number;
+  consistency?: number | null;
+  finishedAt?: string | null;
+  /**
+   * Raw keystroke data for replay (optional)
+   */
+  keystrokes?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -189,6 +271,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'texts';
+        value: string | Text;
+      } | null)
+    | ({
+        relationTo: 'races';
+        value: string | Race;
+      } | null)
+    | ({
+        relationTo: 'race-results';
+        value: string | RaceResult;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -237,6 +331,19 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  username?: T;
+  displayName?: T;
+  avatarUrl?: T;
+  role?: T;
+  stats?:
+    | T
+    | {
+        totalRaces?: T;
+        avgWpm?: T;
+        bestWpm?: T;
+        avgAccuracy?: T;
+        elo?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -271,6 +378,56 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "texts_select".
+ */
+export interface TextsSelect<T extends boolean = true> {
+  content?: T;
+  source?: T;
+  author?: T;
+  difficulty?: T;
+  wordCount?: T;
+  charCount?: T;
+  language?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "races_select".
+ */
+export interface RacesSelect<T extends boolean = true> {
+  status?: T;
+  text?: T;
+  config?:
+    | T
+    | {
+        maxPlayers?: T;
+        countdownSeconds?: T;
+      };
+  startedAt?: T;
+  finishedAt?: T;
+  createdBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "race-results_select".
+ */
+export interface RaceResultsSelect<T extends boolean = true> {
+  race?: T;
+  player?: T;
+  position?: T;
+  wpm?: T;
+  accuracy?: T;
+  consistency?: T;
+  finishedAt?: T;
+  keystrokes?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
