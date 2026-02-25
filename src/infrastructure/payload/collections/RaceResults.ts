@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { updateUserStatsAfterResult } from '@/infrastructure/payload/hooks/update-user-stats'
 
 export const RaceResults: CollectionConfig = {
   slug: 'race-results',
@@ -9,6 +10,9 @@ export const RaceResults: CollectionConfig = {
   access: {
     read: () => true,
     create: ({ req }) => !!req.user,
+  },
+  hooks: {
+    afterChange: [updateUserStatsAfterResult],
   },
   fields: [
     {
