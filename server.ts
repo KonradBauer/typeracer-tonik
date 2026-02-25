@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import 'tsconfig-paths/register.js'
 import next from 'next'
 import { createServer } from 'http'
 import { parse } from 'url'

@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers'
 import { headers as getHeaders } from 'next/headers.js'
 import { getPayload } from 'payload'
-import { redirect } from 'next/navigation'
+import { redirect, notFound } from 'next/navigation'
 import config from '@payload-config'
-import { RacePageClient } from '@/features/game/components/race-page-client'
+import { SoloRace } from '@/features/game/components/solo-race'
 
 export const metadata = {
   title: 'Race — TypeRacer Tonik',
@@ -24,13 +24,31 @@ export default async function RacePage({ params }: RacePageProps) {
     redirect('/login')
   }
 
-  const cookieStore = await cookies()
-  const token = cookieStore.get('payload-token')?.value ?? ''
+  let race: any
+  try {
+    race = await payload.findByID({ collection: 'races', id, depth: 1 })
+  } catch {
+    notFound()
+  }
+
+  const text =
+    typeof race.text === 'object' && race.text !== null
+      ? race.text.content
+      : null
+
+  if (!text) {
+    notFound()
+  }
 
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Race</h1>
-      <RacePageClient raceId={id} token={token} currentUserId={String(user.id)} />
+      <SoloRace
+        raceId={id}
+        text={text}
+        userId={String(user.id)}
+        username={(user as any).username || user.email}
+      />
     </div>
   )
 }
