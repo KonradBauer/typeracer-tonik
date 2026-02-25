@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { seedTexts } from '../src/infrastructure/db/seed-texts'
+import { seedTexts } from '@/infrastructure/db/seed-texts'
 
 async function main() {
   console.log('Seeding database...')
