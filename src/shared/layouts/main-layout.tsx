@@ -6,6 +6,8 @@ import type { ReactNode } from 'react'
 import config from '@payload-config'
 import { APP_NAME } from '@/shared/lib/constants'
 import { LogoutButton } from '@/features/auth/components/logout-button'
+import LogoTonik from '@/assets/logo-tonik.svg'
+import TextLogoTonik from '@/assets/text-logo-tonik.svg'
 
 async function getUser() {
   const headers = await getHeaders()
@@ -21,8 +23,9 @@ export async function MainLayout({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen flex-col">
       <header className="border-b border-border">
         <nav className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
-          <Link href="/" className="text-lg font-bold tracking-tight">
-            {APP_NAME}
+          <Link href="/" className="flex items-center gap-2">
+            <LogoTonik className="h-6 w-6 text-foreground" />
+            <TextLogoTonik className="h-4 text-foreground" />
           </Link>
           <div className="flex items-center gap-4">
             {user ? (
