@@ -17,7 +17,8 @@
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\""
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
+    "seed": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" node scripts/seed.ts"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.77.0",
