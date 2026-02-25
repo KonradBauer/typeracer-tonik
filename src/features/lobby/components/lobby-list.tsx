@@ -14,19 +14,20 @@ export async function LobbyList() {
 
   return (
     <div className="flex flex-col gap-3">
-      {rooms.map((race) => {
+      {rooms.map((race, i) => {
         const createdBy =
           typeof race.createdBy === 'object' && race.createdBy !== null
             ? (race.createdBy as any).username || (race.createdBy as any).email
             : 'Unknown'
 
         return (
-          <LobbyCard
-            key={race.id}
-            raceId={race.id}
-            createdBy={createdBy}
-            maxPlayers={race.config?.maxPlayers ?? 4}
-          />
+          <div key={race.id} className="animate-slide-in" style={{ animationDelay: `${i * 0.05}s` }}>
+            <LobbyCard
+              raceId={race.id}
+              createdBy={createdBy}
+              maxPlayers={race.config?.maxPlayers ?? 4}
+            />
+          </div>
         )
       })}
     </div>
