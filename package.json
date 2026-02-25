@@ -1,7 +1,7 @@
 {
   "name": "typeracer-tonik",
   "version": "1.0.0",
-  "description": "A blank template to get started with Payload 3.0",
+  "description": "Real-time multiplayer typing race platform built with Next.js 15 and Payload CMS 3",
   "license": "MIT",
   "type": "module",
   "scripts": {
