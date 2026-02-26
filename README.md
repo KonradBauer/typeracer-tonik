@@ -128,9 +128,19 @@ src/
 - Responsive design
 - Admin panel (Payload CMS) for content management
 
-## What I Would Add With More Time
+## Testing
 
-- **Tests** — tested only manually
+E2E tests use [Playwright](https://playwright.dev/). The dev server must be running before you execute them.
+
+```bash
+pnpm dev              # start the dev server first
+pnpm test:e2e         # run all e2e tests headless
+npx playwright test --ui   # run with interactive UI
+```
+
+Test cases document: [Test Cases (Google Docs)](https://docs.google.com/document/d/18LBM4ZnAHn2MgSd0SvERsHlVtkBUJQhwB_vYO-gJJpo/edit?tab=t.0)
+
+## What I Would Add With More Time
 - **Caching** — `unstable_cache` or `revalidateTag` on leaderboard and text queries to reduce DB pressure
 - **Monitoring** — structured logging, error tracking (Sentry), health check endpoint
 - **SSE transport** — replace polling with Server-Sent Events for lower latency, the architecture already supports transport swapping
@@ -150,4 +160,9 @@ src/
 | `pnpm build` | Production build (standalone output) |
 | `pnpm start` | Start production server |
 | `pnpm format` | Format all files with Prettier |
+| `pnpm test:e2e` | Run Playwright e2e tests |
 | `pnpm generate:types` | Regenerate Payload types |
+
+## AI Collaboration
+
+This project was built in collaboration with AI agents (Claude Code) acting as a senior engineering partner — assisting with architecture design, implementation guidance.
