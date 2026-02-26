@@ -1,5 +1,7 @@
 # TypeRacer Tonik
 
+![Demo aplikacji](https://raw.githubusercontent.com/KonradBauer/typeracer-tonik/main/public/appTest.gif)
+
 A real-time multiplayer typing competition platform built with Next.js, Payload CMS, and MongoDB.
 
 Players join races, type the same sentence simultaneously, and compete on speed and accuracy — all synchronized via server-driven polling with no WebSocket dependency.
