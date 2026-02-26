@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     texts: Text;
     races: Race;
+    'race-participants': RaceParticipant;
     'race-results': RaceResult;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -83,6 +84,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     texts: TextsSelect<false> | TextsSelect<true>;
     races: RacesSelect<false> | RacesSelect<true>;
+    'race-participants': RaceParticipantsSelect<false> | RaceParticipantsSelect<true>;
     'race-results': RaceResultsSelect<false> | RaceResultsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -206,9 +208,31 @@ export interface Race {
     maxPlayers?: number | null;
     countdownSeconds?: number | null;
   };
+  /**
+   * Round duration in seconds
+   */
+  roundDuration?: number | null;
+  roundEndsAt?: string | null;
   startedAt?: string | null;
   finishedAt?: string | null;
   createdBy: string | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "race-participants".
+ */
+export interface RaceParticipant {
+  id: string;
+  race: string | Race;
+  player: string | User;
+  position?: number | null;
+  wpm?: number | null;
+  accuracy?: number | null;
+  finished?: boolean | null;
+  finishedAt?: string | null;
+  joinedAt: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -279,6 +303,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'races';
         value: string | Race;
+      } | null)
+    | ({
+        relationTo: 'race-participants';
+        value: string | RaceParticipant;
       } | null)
     | ({
         relationTo: 'race-results';
@@ -407,9 +435,27 @@ export interface RacesSelect<T extends boolean = true> {
         maxPlayers?: T;
         countdownSeconds?: T;
       };
+  roundDuration?: T;
+  roundEndsAt?: T;
   startedAt?: T;
   finishedAt?: T;
   createdBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "race-participants_select".
+ */
+export interface RaceParticipantsSelect<T extends boolean = true> {
+  race?: T;
+  player?: T;
+  position?: T;
+  wpm?: T;
+  accuracy?: T;
+  finished?: T;
+  finishedAt?: T;
+  joinedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
