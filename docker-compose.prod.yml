@@ -7,7 +7,7 @@ services:
         - DATABASE_URL=mongodb://mongo:27017/typeracer-tonik
         - PAYLOAD_SECRET=${PAYLOAD_SECRET}
     ports:
-      - '3000:3000'
+      - '4444:3000'
     depends_on:
       mongo:
         condition: service_started
