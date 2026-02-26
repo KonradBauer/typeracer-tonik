@@ -1,10 +1,20 @@
 import { create } from 'zustand'
-import type { ConnectionState } from '@/infrastructure/realtime/transport'
-import type {
-  RoomPlayerInfo,
-  PlayerProgressPayload,
-} from '@/infrastructure/realtime/messages'
 import type { RaceRanking, RaceStatus } from '@/domain/race/types'
+
+type ConnectionState = 'disconnected' | 'connecting' | 'connected'
+
+interface RoomPlayerInfo {
+  id: string
+  username: string
+  ready: boolean
+}
+
+interface PlayerProgressPayload {
+  playerId: string
+  username: string
+  position: number
+  wpm: number
+}
 
 export interface PlayerProgress {
   playerId: string
@@ -14,28 +24,23 @@ export interface PlayerProgress {
 }
 
 export interface GameState {
-  // Connection
   connectionState: ConnectionState
   raceId: string | null
 
-  // Room
   status: RaceStatus
   players: RoomPlayerInfo[]
   playerProgress: Map<string, PlayerProgress>
 
-  // Race
   text: string | null
   countdown: number | null
   startTime: number | null
   rankings: RaceRanking[] | null
 
-  // Local typing
   localPosition: number
   localWpm: number
   localAccuracy: number
   localFinished: boolean
 
-  // Actions
   setConnectionState: (state: ConnectionState) => void
   setRoomState: (raceId: string, status: RaceStatus, players: RoomPlayerInfo[], text: string | null) => void
   setCountdown: (seconds: number) => void
