@@ -10,6 +10,7 @@ import { Media } from './infrastructure/payload/collections/Media'
 import { Texts } from './infrastructure/payload/collections/Texts'
 import { Races } from './infrastructure/payload/collections/Races'
 import { RaceResults } from './infrastructure/payload/collections/RaceResults'
+import { RaceParticipants } from './infrastructure/payload/collections/RaceParticipants'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -21,7 +22,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Texts, Races, RaceResults],
+  collections: [Users, Media, Texts, Races, RaceParticipants, RaceResults],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
