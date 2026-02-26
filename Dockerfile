@@ -29,6 +29,7 @@ ARG DATABASE_URL
 ARG PAYLOAD_SECRET
 ENV DATABASE_URL=${DATABASE_URL}
 ENV PAYLOAD_SECRET=${PAYLOAD_SECRET}
+ENV BUILD_STANDALONE=true
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
