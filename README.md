@@ -23,7 +23,9 @@ Open `http://localhost:3000`. Create an admin user on first launch, then seed te
 | `DATABASE_URL` | MongoDB connection string (e.g. `mongodb://127.0.0.1/typeracer-tonik`) |
 | `PAYLOAD_SECRET` | Auth secret for Payload CMS (min 24 chars) |
 
-### Docker
+### Deployment
+
+The application is deployed on a VPS using Docker.
 
 ```bash
 docker compose up        # development (with hot reload)
