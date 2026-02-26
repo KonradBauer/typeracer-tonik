@@ -26,10 +26,14 @@ export function Modal({ open, onClose, children, className }: ModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="fixed inset-0 animate-fade-in-up bg-black/60" onClick={onClose} aria-hidden="true" />
+      <div
+        className="animate-fade-in-up fixed inset-0 bg-black/60"
+        onClick={onClose}
+        aria-hidden="true"
+      />
       <div
         className={cn(
-          'relative z-10 w-full max-w-md animate-fade-in-up rounded-xl border border-border bg-card p-6 shadow-xl',
+          'animate-fade-in-up border-border bg-card relative z-10 w-full max-w-md rounded-xl border p-6 shadow-xl',
           className,
         )}
         role="dialog"

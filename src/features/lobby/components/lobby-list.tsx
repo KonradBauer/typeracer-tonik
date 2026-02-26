@@ -5,11 +5,7 @@ export async function LobbyList() {
   const rooms = await listRooms()
 
   if (rooms.length === 0) {
-    return (
-      <p className="py-8 text-center text-muted">
-        No open races. Create one to get started!
-      </p>
-    )
+    return <p className="text-muted py-8 text-center">No open races. Create one to get started!</p>
   }
 
   return (

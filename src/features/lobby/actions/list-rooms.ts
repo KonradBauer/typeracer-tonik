@@ -32,8 +32,8 @@ export async function listRooms(): Promise<RoomListItem[]> {
 
       const createdBy =
         typeof race.createdBy === 'object' && race.createdBy !== null
-          ? ((race.createdBy as { username?: string; email: string }).username ||
-            (race.createdBy as { email: string }).email)
+          ? (race.createdBy as { username?: string; email: string }).username ||
+            (race.createdBy as { email: string }).email
           : 'Unknown'
 
       return {

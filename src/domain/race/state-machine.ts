@@ -85,12 +85,7 @@ export function updatePlayerProgress(
   return { ...race, players }
 }
 
-export function finishPlayer(
-  race: Race,
-  playerId: string,
-  wpm: number,
-  accuracy: number,
-): Race {
+export function finishPlayer(race: Race, playerId: string, wpm: number, accuracy: number): Race {
   if (race.status !== 'racing') return race
 
   const player = race.players.get(playerId)

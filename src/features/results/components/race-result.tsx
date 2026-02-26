@@ -27,7 +27,7 @@ export function RaceResult({ rankings }: RaceResultProps) {
           {rankings.map((r, i) => (
             <div
               key={i}
-              className="flex items-center justify-between rounded-lg border border-border px-4 py-3"
+              className="border-border flex items-center justify-between rounded-lg border px-4 py-3"
             >
               <div className="flex items-center gap-3">
                 <Badge variant={positionBadgeVariant(r.position)}>#{r.position}</Badge>

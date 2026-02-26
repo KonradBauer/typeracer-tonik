@@ -130,7 +130,7 @@ src/
 
 ## What I Would Add With More Time
 
-- **Tests** — unit tests for domain layer (typing engine, state machine, scoring), integration tests for Server Actions, E2E tests for race flow
+- **Tests** — tested only manually
 - **Caching** — `unstable_cache` or `revalidateTag` on leaderboard and text queries to reduce DB pressure
 - **Monitoring** — structured logging, error tracking (Sentry), health check endpoint
 - **SSE transport** — replace polling with Server-Sent Events for lower latency, the architecture already supports transport swapping

@@ -45,7 +45,7 @@ export function TypingArea({ errors, onKeystroke }: TypingAreaProps) {
     <div
       ref={containerRef}
       tabIndex={0}
-      className="rounded-xl border border-border bg-card p-6 font-mono text-lg leading-relaxed outline-none focus:border-primary"
+      className="border-border bg-card focus:border-primary rounded-xl border p-6 font-mono text-lg leading-relaxed outline-none"
     >
       {text.split('').map((char, i) => {
         let className = 'text-muted'

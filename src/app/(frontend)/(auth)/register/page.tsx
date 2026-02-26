@@ -9,13 +9,13 @@ export const metadata = {
 export default function RegisterPage() {
   return (
     <div className="flex justify-center py-12">
-      <Card className="w-full max-w-sm animate-fade-in-up">
+      <Card className="animate-fade-in-up w-full max-w-sm">
         <CardHeader>
           <CardTitle>Create Account</CardTitle>
         </CardHeader>
         <CardContent>
           <RegisterForm />
-          <p className="mt-4 text-center text-sm text-muted">
+          <p className="text-muted mt-4 text-center text-sm">
             Already have an account?{' '}
             <Link href="/login" className="text-primary hover:underline">
               Login

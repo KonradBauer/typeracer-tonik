@@ -32,10 +32,7 @@ export async function joinRace(raceId: string): Promise<JoinRaceResult> {
   const existing = await payload.find({
     collection: 'race-participants',
     where: {
-      and: [
-        { race: { equals: raceId } },
-        { player: { equals: user.id } },
-      ],
+      and: [{ race: { equals: raceId } }, { player: { equals: user.id } }],
     },
     limit: 1,
   })

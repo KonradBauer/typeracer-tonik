@@ -16,7 +16,7 @@ export function PlayerProgress({ currentUserId, textLength }: PlayerProgressProp
   if (participants.length === 0) return null
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4">
+    <div className="border-border bg-card flex flex-col gap-3 rounded-xl border p-4">
       {participants.map((participant) => {
         const isLocal = participant.playerId === currentUserId
         const position = isLocal ? localPosition : participant.position
@@ -29,9 +29,9 @@ export function PlayerProgress({ currentUserId, textLength }: PlayerProgressProp
               <span className={cn('font-medium', isLocal && 'text-primary')}>
                 {participant.username} {isLocal && '(you)'}
               </span>
-              <span className="tabular-nums text-muted">{wpm} WPM</span>
+              <span className="text-muted tabular-nums">{wpm} WPM</span>
             </div>
-            <div className="h-2 overflow-hidden rounded-full bg-border">
+            <div className="bg-border h-2 overflow-hidden rounded-full">
               <div
                 className={cn(
                   'h-full rounded-full transition-all duration-150',

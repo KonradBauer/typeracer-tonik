@@ -11,11 +11,7 @@ export function createTypingState(text: string): TypingState {
   }
 }
 
-export function processKeystroke(
-  state: TypingState,
-  char: string,
-  timestamp: number,
-): TypingState {
+export function processKeystroke(state: TypingState, char: string, timestamp: number): TypingState {
   if (state.endTime !== null) return state
   if (state.position >= state.text.length) return state
 

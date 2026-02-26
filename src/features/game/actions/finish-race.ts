@@ -23,10 +23,7 @@ export async function finishRace(input: FinishRaceInput) {
   const participant = await payload.find({
     collection: 'race-participants',
     where: {
-      and: [
-        { race: { equals: input.raceId } },
-        { player: { equals: user.id } },
-      ],
+      and: [{ race: { equals: input.raceId } }, { player: { equals: user.id } }],
     },
     limit: 1,
   })
@@ -80,10 +77,7 @@ export async function finishRace(input: FinishRaceInput) {
   const existingResult = await payload.find({
     collection: 'race-results',
     where: {
-      and: [
-        { race: { equals: input.raceId } },
-        { player: { equals: user.id } },
-      ],
+      and: [{ race: { equals: input.raceId } }, { player: { equals: user.id } }],
     },
     limit: 1,
   })

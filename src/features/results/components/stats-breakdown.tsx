@@ -8,7 +8,13 @@ interface StatsBreakdownProps {
   totalPlayers: number
 }
 
-export function StatsBreakdown({ wpm, accuracy, consistency, position, totalPlayers }: StatsBreakdownProps) {
+export function StatsBreakdown({
+  wpm,
+  accuracy,
+  consistency,
+  position,
+  totalPlayers,
+}: StatsBreakdownProps) {
   return (
     <Card>
       <CardHeader>
@@ -28,9 +34,9 @@ export function StatsBreakdown({ wpm, accuracy, consistency, position, totalPlay
 
 function StatItem({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col items-center gap-1 rounded-lg bg-background p-3">
+    <div className="bg-background flex flex-col items-center gap-1 rounded-lg p-3">
       <span className="text-2xl font-bold tabular-nums">{value}</span>
-      <span className="text-xs text-muted">{label}</span>
+      <span className="text-muted text-xs">{label}</span>
     </div>
   )
 }

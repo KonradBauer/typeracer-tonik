@@ -12,7 +12,7 @@ interface LobbyCardProps {
 
 export function LobbyCard({ raceId, createdBy, maxPlayers, playerCount }: LobbyCardProps) {
   return (
-    <Card className="transition-colors duration-150 hover:border-primary/30">
+    <Card className="hover:border-primary/30 transition-colors duration-150">
       <CardContent className="flex items-center justify-between">
         <div className="flex flex-col gap-1">
           <p className="text-sm font-medium">Race by {createdBy}</p>

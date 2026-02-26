@@ -39,7 +39,7 @@ const passages = [
   },
   {
     content:
-      'I have not failed. I have just found ten thousand ways that will not work. Many of life\'s failures are people who did not realize how close they were to success when they gave up.',
+      "I have not failed. I have just found ten thousand ways that will not work. Many of life's failures are people who did not realize how close they were to success when they gave up.",
     source: 'Interview',
     author: 'Thomas Edison',
     difficulty: 'medium' as const,
@@ -61,7 +61,7 @@ const passages = [
   {
     content:
       'Far out in the uncharted backwaters of the unfashionable end of the western spiral arm of the Galaxy lies a small unregarded yellow sun. Orbiting this at a distance of roughly ninety-two million miles is an utterly insignificant little blue green planet.',
-    source: 'The Hitchhiker\'s Guide to the Galaxy',
+    source: "The Hitchhiker's Guide to the Galaxy",
     author: 'Douglas Adams',
     difficulty: 'hard' as const,
   },

@@ -1,7 +1,12 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { createTypingState, processKeystroke, isFinished, getProgress } from '@/domain/typing/engine'
+import {
+  createTypingState,
+  processKeystroke,
+  isFinished,
+  getProgress,
+} from '@/domain/typing/engine'
 import { calculateLiveWpm, computeResult } from '@/domain/typing/stats'
 import type { TypingState, TypingResult } from '@/domain/typing/types'
 import { Button } from '@/shared/ui/button'
@@ -80,14 +85,14 @@ export function SoloRace({ raceId, text, userId, username }: SoloRaceProps) {
     <div className="flex flex-col gap-6">
       {/* Progress bar */}
       <div className="flex items-center gap-3">
-        <span className="text-sm font-medium text-primary">{username}</span>
-        <div className="h-2 flex-1 overflow-hidden rounded-full bg-border">
+        <span className="text-primary text-sm font-medium">{username}</span>
+        <div className="bg-border h-2 flex-1 overflow-hidden rounded-full">
           <div
-            className="h-full rounded-full bg-primary transition-all duration-150"
+            className="bg-primary h-full rounded-full transition-all duration-150"
             style={{ width: `${text.length > 0 ? (position / text.length) * 100 : 0}%` }}
           />
         </div>
-        <span className="text-sm tabular-nums text-muted">{wpm} WPM</span>
+        <span className="text-muted text-sm tabular-nums">{wpm} WPM</span>
       </div>
 
       {/* Ready */}
@@ -110,7 +115,7 @@ export function SoloRace({ raceId, text, userId, username }: SoloRaceProps) {
 
       {/* Typing area */}
       {(phase === 'racing' || phase === 'finished') && (
-        <div className="rounded-xl border border-border bg-card p-6 font-mono text-lg leading-relaxed">
+        <div className="border-border bg-card rounded-xl border p-6 font-mono text-lg leading-relaxed">
           {text.split('').map((char, i) => {
             let charClass = 'text-muted'
             if (i < position) {
@@ -130,7 +135,7 @@ export function SoloRace({ raceId, text, userId, username }: SoloRaceProps) {
 
       {/* Results */}
       {phase === 'finished' && result && (
-        <div className="rounded-xl border border-border bg-card p-6">
+        <div className="border-border bg-card rounded-xl border p-6">
           <h2 className="mb-4 text-lg font-semibold">Results</h2>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <StatItem label="WPM" value={String(result.wpm)} />
@@ -152,9 +157,9 @@ export function SoloRace({ raceId, text, userId, username }: SoloRaceProps) {
 
 function StatItem({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col items-center gap-1 rounded-lg bg-background p-3">
+    <div className="bg-background flex flex-col items-center gap-1 rounded-lg p-3">
       <span className="text-2xl font-bold tabular-nums">{value}</span>
-      <span className="text-xs text-muted">{label}</span>
+      <span className="text-muted text-xs">{label}</span>
     </div>
   )
 }

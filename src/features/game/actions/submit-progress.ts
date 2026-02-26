@@ -23,10 +23,7 @@ export async function submitProgress(input: SubmitProgressInput) {
   const participant = await payload.find({
     collection: 'race-participants',
     where: {
-      and: [
-        { race: { equals: input.raceId } },
-        { player: { equals: user.id } },
-      ],
+      and: [{ race: { equals: input.raceId } }, { player: { equals: user.id } }],
     },
     limit: 1,
   })

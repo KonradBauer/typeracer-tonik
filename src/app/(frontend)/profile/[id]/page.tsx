@@ -62,7 +62,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
               {recentResults.docs.map((result) => (
                 <div
                   key={result.id}
-                  className="flex items-center justify-between rounded-lg border border-border px-4 py-2 text-sm"
+                  className="border-border flex items-center justify-between rounded-lg border px-4 py-2 text-sm"
                 >
                   <Badge variant={result.position === 1 ? 'success' : 'default'}>
                     #{result.position}
@@ -81,9 +81,9 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
 function StatCard({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="flex flex-col items-center gap-1 rounded-xl border border-border bg-card p-4">
+    <div className="border-border bg-card flex flex-col items-center gap-1 rounded-xl border p-4">
       <span className="text-2xl font-bold tabular-nums">{value}</span>
-      <span className="text-xs text-muted">{label}</span>
+      <span className="text-muted text-xs">{label}</span>
     </div>
   )
 }

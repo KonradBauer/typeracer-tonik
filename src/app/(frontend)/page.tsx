@@ -13,11 +13,11 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-8 py-20 text-center">
-      <div className="flex flex-col gap-3 animate-fade-in-up">
-        <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+      <div className="animate-fade-in-up flex flex-col gap-3">
+        <h1 className="from-primary to-primary/60 bg-gradient-to-r bg-clip-text text-5xl font-bold tracking-tight text-transparent">
           TypeRacer Tonik
         </h1>
-        <p className="text-lg text-muted">Race against others in real-time typing competitions</p>
+        <p className="text-muted text-lg">Race against others in real-time typing competitions</p>
       </div>
       {user ? (
         <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
@@ -26,7 +26,7 @@ export default async function HomePage() {
           </Link>
         </div>
       ) : (
-        <div className="flex gap-3 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+        <div className="animate-fade-in-up flex gap-3" style={{ animationDelay: '0.1s' }}>
           <Link href="/login">
             <Button size="lg">Login</Button>
           </Link>

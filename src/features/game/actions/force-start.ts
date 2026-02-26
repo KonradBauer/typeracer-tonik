@@ -22,10 +22,7 @@ export async function forceStart(raceId: string) {
   const isParticipant = await payload.find({
     collection: 'race-participants',
     where: {
-      and: [
-        { race: { equals: raceId } },
-        { player: { equals: user.id } },
-      ],
+      and: [{ race: { equals: raceId } }, { player: { equals: user.id } }],
     },
     limit: 1,
   })

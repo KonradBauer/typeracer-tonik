@@ -11,10 +11,24 @@ export function LoginForm() {
   return (
     <form action={formAction} className="flex flex-col gap-4">
       {state.error && (
-        <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">{state.error}</p>
+        <p className="bg-danger/10 text-danger rounded-lg px-3 py-2 text-sm">{state.error}</p>
       )}
-      <Input id="email" name="email" type="email" label="Email" placeholder="you@example.com" required />
-      <Input id="password" name="password" type="password" label="Password" placeholder="••••••••" required />
+      <Input
+        id="email"
+        name="email"
+        type="email"
+        label="Email"
+        placeholder="you@example.com"
+        required
+      />
+      <Input
+        id="password"
+        name="password"
+        type="password"
+        label="Password"
+        placeholder="••••••••"
+        required
+      />
       <Button type="submit" disabled={pending}>
         {pending ? 'Logging in...' : 'Login'}
       </Button>

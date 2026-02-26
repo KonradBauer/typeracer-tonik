@@ -38,11 +38,7 @@ export default async function RacePage({ params }: RacePageProps) {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Race</h1>
-      <MultiplayerRace
-        raceId={id}
-        userId={String(user.id)}
-        username={(user as User).username}
-      />
+      <MultiplayerRace raceId={id} userId={String(user.id)} username={(user as User).username} />
     </div>
   )
 }

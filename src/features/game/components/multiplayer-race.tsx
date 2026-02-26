@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { useGameStore } from '@/features/game/stores/game-store'
 import { useRacePolling } from '@/features/game/hooks/use-race-polling'
 import { useTypingEngine } from '@/features/game/hooks/use-typing-engine'
@@ -21,8 +20,7 @@ interface MultiplayerRaceProps {
   username: string
 }
 
-export function MultiplayerRace({ raceId, userId, username }: MultiplayerRaceProps) {
-  const router = useRouter()
+export function MultiplayerRace({ raceId, userId }: MultiplayerRaceProps) {
   const [joinError, setJoinError] = useState<string | null>(null)
   const [joined, setJoined] = useState(false)
   const [errors, setErrors] = useState<Set<number>>(new Set())
@@ -72,9 +70,11 @@ export function MultiplayerRace({ raceId, userId, username }: MultiplayerRacePro
         wpm: result.wpm,
         accuracy: result.accuracy,
         consistency: result.consistency,
-      }).then((res) => {
-        if (!res.success) setFinishError(true)
-      }).catch(() => setFinishError(true))
+      })
+        .then((res) => {
+          if (!res.success) setFinishError(true)
+        })
+        .catch(() => setFinishError(true))
     },
     [raceId, setLocalFinished],
   )
@@ -112,7 +112,7 @@ export function MultiplayerRace({ raceId, userId, username }: MultiplayerRacePro
     return (
       <div className="flex flex-col items-center gap-4 py-12">
         <p className="text-danger">{joinError}</p>
-        <a href="/lobby" className="text-sm text-primary underline">
+        <a href="/lobby" className="text-primary text-sm underline">
           Back to Lobby
         </a>
       </div>
@@ -130,56 +130,43 @@ export function MultiplayerRace({ raceId, userId, username }: MultiplayerRacePro
 
   return (
     <div className="flex flex-col gap-6">
-      {text && (
-        <PlayerProgress currentUserId={userId} textLength={text.length} />
-      )}
+      {text && <PlayerProgress currentUserId={userId} textLength={text.length} />}
 
       {status === 'waiting' && (
         <div className="flex flex-col items-center gap-4 py-12">
           <Spinner size="md" />
-          <p className="text-muted">
-            Waiting for players... ({participants.length} joined)
-          </p>
+          <p className="text-muted">Waiting for players... ({participants.length} joined)</p>
           <button
             onClick={() => forceStart(raceId)}
-            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted transition-colors hover:border-primary hover:text-foreground"
+            className="border-border text-muted hover:border-primary hover:text-foreground rounded-lg border px-4 py-2 text-sm font-medium transition-colors"
           >
             Start Now
           </button>
         </div>
       )}
 
-      {status === 'countdown' && countdown !== null && (
-        <Countdown seconds={countdown} />
-      )}
+      {status === 'countdown' && countdown !== null && <Countdown seconds={countdown} />}
 
-      {status === 'racing' && (
-        <TypingArea
-          errors={errors}
-          onKeystroke={handleKeystroke}
-        />
-      )}
+      {status === 'racing' && <TypingArea errors={errors} onKeystroke={handleKeystroke} />}
 
       {finishError && (
-        <div className="rounded-lg border border-danger bg-danger/10 p-3 text-center text-sm text-danger">
+        <div className="border-danger bg-danger/10 text-danger rounded-lg border p-3 text-center text-sm">
           Failed to save result. Please refresh and try again.
         </div>
       )}
 
       {status === 'finished' && rankings && (
-        <div className="rounded-xl border border-border bg-card p-6">
+        <div className="border-border bg-card rounded-xl border p-6">
           <h2 className="mb-4 text-lg font-semibold">Race Results</h2>
           <div className="flex flex-col gap-2">
             {rankings.map((r, i) => (
               <div
                 key={r.playerId}
-                className="flex items-center justify-between rounded-lg bg-background p-3"
+                className="bg-background flex items-center justify-between rounded-lg p-3"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-lg font-bold tabular-nums text-muted">
-                    #{i + 1}
-                  </span>
-                  <span className={r.playerId === userId ? 'font-semibold text-primary' : ''}>
+                  <span className="text-muted text-lg font-bold tabular-nums">#{i + 1}</span>
+                  <span className={r.playerId === userId ? 'text-primary font-semibold' : ''}>
                     {r.username}
                   </span>
                 </div>
@@ -192,12 +179,12 @@ export function MultiplayerRace({ raceId, userId, username }: MultiplayerRacePro
           </div>
           <div className="mt-6 flex gap-3">
             <a href="/lobby">
-              <button className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90">
+              <button className="bg-primary hover:bg-primary/90 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors">
                 Back to Lobby
               </button>
             </a>
             <a href={`/results/${raceId}`}>
-              <button className="rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-card">
+              <button className="border-border hover:bg-card rounded-lg border px-4 py-2 text-sm font-medium transition-colors">
                 Detailed Results
               </button>
             </a>

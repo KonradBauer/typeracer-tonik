@@ -4,7 +4,7 @@ export default function GameLoading() {
   return (
     <div className="flex flex-col items-center gap-2 py-24">
       <Spinner size="lg" />
-      <p className="text-sm text-muted">Loading...</p>
+      <p className="text-muted text-sm">Loading...</p>
     </div>
   )
 }
