@@ -6,6 +6,7 @@ import { useGameStore } from '@/features/game/stores/game-store'
 import { useRacePolling } from '@/features/game/hooks/use-race-polling'
 import { useTypingEngine } from '@/features/game/hooks/use-typing-engine'
 import { joinRace } from '@/features/game/actions/join-race'
+import { forceStart } from '@/features/game/actions/force-start'
 import { submitProgress } from '@/features/game/actions/submit-progress'
 import { finishRace } from '@/features/game/actions/finish-race'
 import { TypingArea } from './typing-area'
@@ -135,11 +136,17 @@ export function MultiplayerRace({ raceId, userId, username }: MultiplayerRacePro
       )}
 
       {status === 'waiting' && (
-        <div className="flex flex-col items-center gap-2 py-12">
+        <div className="flex flex-col items-center gap-4 py-12">
           <Spinner size="md" />
           <p className="text-muted">
             Waiting for players... ({participants.length} joined)
           </p>
+          <button
+            onClick={() => forceStart(raceId)}
+            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted transition-colors hover:border-primary hover:text-foreground"
+          >
+            Start Now
+          </button>
         </div>
       )}
 
