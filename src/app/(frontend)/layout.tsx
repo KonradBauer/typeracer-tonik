@@ -5,6 +5,7 @@ import './globals.css'
 export const metadata = {
   description: 'Real-time multiplayer typing race platform.',
   title: 'TypeRacer Tonik',
+  icons: { icon: '/favicon.svg' },
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
