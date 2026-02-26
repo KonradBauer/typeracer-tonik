@@ -14,22 +14,16 @@ export async function LobbyList() {
 
   return (
     <div className="flex flex-col gap-3">
-      {rooms.map((race, i) => {
-        const createdBy =
-          typeof race.createdBy === 'object' && race.createdBy !== null
-            ? (race.createdBy as any).username || (race.createdBy as any).email
-            : 'Unknown'
-
-        return (
-          <div key={race.id} className="animate-slide-in" style={{ animationDelay: `${i * 0.05}s` }}>
-            <LobbyCard
-              raceId={race.id}
-              createdBy={createdBy}
-              maxPlayers={race.config?.maxPlayers ?? 4}
-            />
-          </div>
-        )
-      })}
+      {rooms.map((room, i) => (
+        <div key={room.id} className="animate-slide-in" style={{ animationDelay: `${i * 0.05}s` }}>
+          <LobbyCard
+            raceId={room.id}
+            createdBy={room.createdBy}
+            maxPlayers={room.maxPlayers}
+            playerCount={room.playerCount}
+          />
+        </div>
+      ))}
     </div>
   )
 }
