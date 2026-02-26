@@ -8,7 +8,7 @@ export function calculateWpm(correctChars: number, durationMs: number): number {
 }
 
 export function calculateAccuracy(totalChars: number, errorCount: number): number {
-  if (totalChars === 0) return 0
+  if (totalChars === 0) return 100
   return Math.round(((totalChars - errorCount) / totalChars) * 100)
 }
 

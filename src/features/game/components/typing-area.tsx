@@ -7,10 +7,9 @@ import { cn } from '@/shared/lib/cn'
 interface TypingAreaProps {
   errors: Set<number>
   onKeystroke: (char: string, timestamp: number) => void
-  onFinished: () => void
 }
 
-export function TypingArea({ errors, onKeystroke, onFinished }: TypingAreaProps) {
+export function TypingArea({ errors, onKeystroke }: TypingAreaProps) {
   const text = useGameStore((s) => s.text)
   const status = useGameStore((s) => s.status)
   const localPosition = useGameStore((s) => s.localPosition)
@@ -25,12 +24,8 @@ export function TypingArea({ errors, onKeystroke, onFinished }: TypingAreaProps)
 
       e.preventDefault()
       onKeystroke(e.key, Date.now())
-
-      if (localPosition + 1 >= text.length) {
-        onFinished()
-      }
     },
-    [status, localFinished, text, localPosition, onKeystroke, onFinished],
+    [status, localFinished, text, onKeystroke],
   )
 
   useEffect(() => {

@@ -26,6 +26,7 @@ export function MultiplayerRace({ raceId, userId, username }: MultiplayerRacePro
   const [joinError, setJoinError] = useState<string | null>(null)
   const [joined, setJoined] = useState(false)
   const [errors, setErrors] = useState<Set<number>>(new Set())
+  const [finishError, setFinishError] = useState(false)
   const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const latestProgressRef = useRef({ position: 0, wpm: 0, accuracy: 100 })
 
@@ -71,7 +72,9 @@ export function MultiplayerRace({ raceId, userId, username }: MultiplayerRacePro
         wpm: result.wpm,
         accuracy: result.accuracy,
         consistency: result.consistency,
-      })
+      }).then((res) => {
+        if (!res.success) setFinishError(true)
+      }).catch(() => setFinishError(true))
     },
     [raceId, setLocalFinished],
   )
@@ -104,10 +107,6 @@ export function MultiplayerRace({ raceId, userId, username }: MultiplayerRacePro
     },
     [handleChar],
   )
-
-  const handleFinished = useCallback(() => {
-    // Handled by useTypingEngine onFinish callback
-  }, [])
 
   if (joinError) {
     return (
@@ -158,8 +157,13 @@ export function MultiplayerRace({ raceId, userId, username }: MultiplayerRacePro
         <TypingArea
           errors={errors}
           onKeystroke={handleKeystroke}
-          onFinished={handleFinished}
         />
+      )}
+
+      {finishError && (
+        <div className="rounded-lg border border-danger bg-danger/10 p-3 text-center text-sm text-danger">
+          Failed to save result. Please refresh and try again.
+        </div>
       )}
 
       {status === 'finished' && rankings && (

@@ -5,8 +5,11 @@ import config from '@payload-config'
 import type { RaceSnapshot } from '@/features/game/stores/game-store'
 import { calculateRankings } from '@/domain/race/scoring'
 import type { RacePlayer } from '@/domain/race/types'
+import { advanceRace } from './advance-race'
 
 export async function getRaceState(raceId: string): Promise<RaceSnapshot | null> {
+  await advanceRace(raceId)
+
   const payload = await getPayload({ config })
 
   const race = await payload.findByID({
@@ -29,33 +32,8 @@ export async function getRaceState(raceId: string): Promise<RaceSnapshot | null>
       ? (race.text as { content: string }).content
       : ''
 
-  let { status } = race
+  const status = race.status
   const now = Date.now()
-
-  if (status === 'countdown' && race.startedAt) {
-    const countdownEnd =
-      new Date(race.startedAt).getTime() + (race.config?.countdownSeconds ?? 5) * 1000
-    if (now >= countdownEnd) {
-      status = 'racing'
-      await payload.update({
-        collection: 'races',
-        id: raceId,
-        data: { status: 'racing' },
-      })
-    }
-  }
-
-  if (status === 'racing' && race.roundEndsAt) {
-    const roundEnd = new Date(race.roundEndsAt).getTime()
-    if (now >= roundEnd) {
-      status = 'finished'
-      await payload.update({
-        collection: 'races',
-        id: raceId,
-        data: { status: 'finished', finishedAt: new Date().toISOString() },
-      })
-    }
-  }
 
   const participantList = participants.docs.map((p) => {
     const player =

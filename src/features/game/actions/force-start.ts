@@ -19,13 +19,19 @@ export async function forceStart(raceId: string) {
     return { success: false, error: 'Race cannot be started' }
   }
 
-  const participants = await payload.count({
+  const isParticipant = await payload.find({
     collection: 'race-participants',
-    where: { race: { equals: raceId } },
+    where: {
+      and: [
+        { race: { equals: raceId } },
+        { player: { equals: user.id } },
+      ],
+    },
+    limit: 1,
   })
 
-  if (participants.totalDocs === 0) {
-    return { success: false, error: 'No players in race' }
+  if (isParticipant.docs.length === 0) {
+    return { success: false, error: 'Not a participant' }
   }
 
   const countdownSeconds = race.config?.countdownSeconds ?? 5
