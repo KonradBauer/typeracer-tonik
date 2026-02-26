@@ -1,43 +1,23 @@
-version: '3'
-
 services:
-  payload:
-    image: node:18-alpine
+  app:
+    build:
+      context: .
+      args:
+        DATABASE_URL: mongodb://mongo/typeracer-tonik
+        PAYLOAD_SECRET: ${PAYLOAD_SECRET}
     ports:
-      - '3000:3000'
-    volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+      - '4444:3000'
     depends_on:
       - mongo
-      # - postgres
     env_file:
       - .env
+    restart: unless-stopped
 
-  # Ensure your DATABASE_URL uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
   mongo:
-    image: mongo:latest
-    ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
+    image: mongo:7
     volumes:
       - data:/data/db
-    logging:
-      driver: none
-
-  # Uncomment the following to use postgres
-  # postgres:
-  #   restart: always
-  #   image: postgres:latest
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data
-  #   ports:
-  #     - "5432:5432"
+    restart: unless-stopped
 
 volumes:
   data:
-  # pgdata:
-  node_modules:
