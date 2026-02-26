@@ -50,6 +50,20 @@ export const Races: CollectionConfig = {
       ],
     },
     {
+      name: 'roundDuration',
+      type: 'number',
+      defaultValue: 60,
+      min: 15,
+      max: 180,
+      admin: {
+        description: 'Round duration in seconds',
+      },
+    },
+    {
+      name: 'roundEndsAt',
+      type: 'date',
+    },
+    {
       name: 'startedAt',
       type: 'date',
     },
