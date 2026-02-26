@@ -28,7 +28,7 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
       const cookieStore = await cookies()
       cookieStore.set('payload-token', result.token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: process.env.SECURE_COOKIES === 'true',
         path: '/',
         sameSite: 'lax',
       })

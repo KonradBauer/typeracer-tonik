@@ -47,7 +47,7 @@ export async function register(_prev: RegisterState, formData: FormData): Promis
       const cookieStore = await cookies()
       cookieStore.set('payload-token', result.token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: process.env.SECURE_COOKIES === 'true',
         path: '/',
         sameSite: 'lax',
       })
