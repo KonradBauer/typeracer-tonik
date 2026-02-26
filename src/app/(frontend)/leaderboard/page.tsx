@@ -9,7 +9,11 @@ export const metadata = {
 
 async function LeaderboardData() {
   const entries = await getLeaderboard()
-  return <LeaderboardTable entries={entries} />
+  return (
+    <Suspense fallback={null}>
+      <LeaderboardTable entries={entries} />
+    </Suspense>
+  )
 }
 
 export default function LeaderboardPage() {
