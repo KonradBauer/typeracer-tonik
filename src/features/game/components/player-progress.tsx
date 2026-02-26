@@ -9,36 +9,34 @@ interface PlayerProgressProps {
 }
 
 export function PlayerProgress({ currentUserId, textLength }: PlayerProgressProps) {
-  const players = useGameStore((s) => s.players)
-  const playerProgress = useGameStore((s) => s.playerProgress)
+  const participants = useGameStore((s) => s.participants)
   const localPosition = useGameStore((s) => s.localPosition)
   const localWpm = useGameStore((s) => s.localWpm)
 
-  if (players.length === 0) return null
+  if (participants.length === 0) return null
 
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4">
-      {players.map((player) => {
-        const isLocal = player.id === currentUserId
-        const progress = isLocal
-          ? { position: localPosition, wpm: localWpm }
-          : playerProgress.get(player.id)
-
-        const percent = textLength > 0 ? ((progress?.position ?? 0) / textLength) * 100 : 0
+      {participants.map((participant) => {
+        const isLocal = participant.playerId === currentUserId
+        const position = isLocal ? localPosition : participant.position
+        const wpm = isLocal ? localWpm : participant.wpm
+        const percent = textLength > 0 ? (position / textLength) * 100 : 0
 
         return (
-          <div key={player.id} className="flex flex-col gap-1">
+          <div key={participant.playerId} className="flex flex-col gap-1">
             <div className="flex items-center justify-between text-sm">
               <span className={cn('font-medium', isLocal && 'text-primary')}>
-                {player.username} {isLocal && '(you)'}
+                {participant.username} {isLocal && '(you)'}
               </span>
-              <span className="tabular-nums text-muted">{progress?.wpm ?? 0} WPM</span>
+              <span className="tabular-nums text-muted">{wpm} WPM</span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-border">
               <div
                 className={cn(
                   'h-full rounded-full transition-all duration-150',
                   isLocal ? 'bg-primary' : 'bg-muted',
+                  participant.finished && !isLocal && 'bg-success',
                 )}
                 style={{ width: `${Math.min(100, percent)}%` }}
               />

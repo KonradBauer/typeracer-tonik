@@ -5,11 +5,12 @@ import { useGameStore } from '@/features/game/stores/game-store'
 import { cn } from '@/shared/lib/cn'
 
 interface TypingAreaProps {
-  onKeystroke: (char: string, position: number, timestamp: number) => void
+  errors: Set<number>
+  onKeystroke: (char: string, timestamp: number) => void
   onFinished: () => void
 }
 
-export function TypingArea({ onKeystroke, onFinished }: TypingAreaProps) {
+export function TypingArea({ errors, onKeystroke, onFinished }: TypingAreaProps) {
   const text = useGameStore((s) => s.text)
   const status = useGameStore((s) => s.status)
   const localPosition = useGameStore((s) => s.localPosition)
@@ -23,8 +24,7 @@ export function TypingArea({ onKeystroke, onFinished }: TypingAreaProps) {
       if (e.key.length !== 1) return
 
       e.preventDefault()
-      const timestamp = Date.now()
-      onKeystroke(e.key, localPosition, timestamp)
+      onKeystroke(e.key, Date.now())
 
       if (localPosition + 1 >= text.length) {
         onFinished()
@@ -39,7 +39,9 @@ export function TypingArea({ onKeystroke, onFinished }: TypingAreaProps) {
   }, [handleKeyDown])
 
   useEffect(() => {
-    containerRef.current?.focus()
+    if (status === 'racing') {
+      containerRef.current?.focus()
+    }
   }, [status])
 
   if (!text) return null
@@ -53,7 +55,7 @@ export function TypingArea({ onKeystroke, onFinished }: TypingAreaProps) {
       {text.split('').map((char, i) => {
         let className = 'text-muted'
         if (i < localPosition) {
-          className = 'text-success'
+          className = errors.has(i) ? 'text-danger' : 'text-success'
         } else if (i === localPosition && status === 'racing') {
           className = 'bg-primary/20 text-foreground'
         }
@@ -64,10 +66,6 @@ export function TypingArea({ onKeystroke, onFinished }: TypingAreaProps) {
           </span>
         )
       })}
-      {status === 'racing' && !localFinished && (
-        <p className="mt-4 text-xs text-muted">Start typing...</p>
-      )}
-      {localFinished && <p className="mt-4 text-sm text-success">Finished!</p>}
     </div>
   )
 }
